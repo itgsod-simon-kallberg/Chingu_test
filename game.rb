@@ -7,7 +7,7 @@ class Game < Chingu::Window
 	def initialize
 		super
 		self.input = {esc: :exit}
-		@background_image = Gosu::Image.new(self, "map2.png", true)
+		@background_image = Gosu::Image.new(self, "map3.png", true)
 		@player = Player.create
 	end
 
