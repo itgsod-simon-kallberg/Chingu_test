@@ -13,30 +13,34 @@ class Game < Chingu::GameState
 	def initialize
 		super
 		self.input = {esc: :exit}
-		Maze.new
+		Labyrinten.new
 		Player.create
 	end
-		def update
-			super
-			Player.each_bounding_box_collision(Block) do |player, block|
-	 			#pop_game_state
-	 			# game_objects.destroy_all
-	 			Block.destroy_all
-	 			Player.destroy_all	
-	 			$window.switch_game_state(Game)
-	 			#Maze.new
+	def update
+		super
+		Player.each_bounding_box_collision(Block) do |player, block|
+ 			#pop_game_state
+ 			# game_objects.destroy_all
+ 			Block.destroy_all
+ 			Player.destroy_all	
+ 			$window.switch_game_state(Game)
+ 			#Maze.new
+ 		end
 
 
-	 		Player.each_bounding_box_collision(Finish) do |player, finish|
-	 			
-     	end
+ 		Player.each_bounding_box_collision(Finish) do |player, finish|
+ 			Block.destroy_all
+ 			$window.switch_game_state(Labyrint)
+
+ 		end
 	end
 end
 
-class Maze
+
+class Maze < Chingu::GameState
 	def initialize
 		y = 0
-		File.readlines("labyrinten.txt").each do |row|
+		File.readlines("#{self.filename}").each do |row|
 			x = 0
 			tecken = row.split("")
 			tecken.each do |t|
@@ -54,6 +58,22 @@ class Maze
 			end
 			y += 20		
 		end
+	end
+end
+
+
+class Labyrinten < Maze
+
+	def filename
+		"labyrinten.txt"
+	end
+
+end
+
+class Labyrint < Maze
+
+	def filename
+		"labyrint.txt"
 	end
 
 end
@@ -80,8 +100,7 @@ class Finish < Chingu::GameObject
 	end
 
 	 def update
-	  	super
-	 		
+	  	super	
      end
 
 end
